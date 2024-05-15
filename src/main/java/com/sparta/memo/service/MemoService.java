@@ -4,12 +4,30 @@ import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
 import com.sparta.memo.repository.MemoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//@Component
+// @RequiredArgsConstructor - lombok을 통한 생성자 주입
+@Service // 3 layer Annotation
 public class MemoService {
+
     private final MemoRepository memoRepository;
 
+//    public MemoService(ApplicationContext context) {
+//         1. 'Bean' 이름으로 가져오기
+//        MemoRepository memoRepository = (MemoRepository)context.getBean("memoRepository");
+//        this.memoRepository = memoRepository;
+//
+//         2, 'Bean' 클래스 형식으로 가져오기
+//        MemoRepository memoRepository = (MemoRepository)context.getBean(MemoRepository.class);
+//        this.memoRepository = memoRepository;
+//    }
+
+    // @Autowired
+    // DI Annotation
+    // 생성자 하나일 경우 Spring 4.3부터 삭제 가능
     public MemoService(MemoRepository memoRepository) {
         this.memoRepository = memoRepository;
     }
@@ -35,7 +53,7 @@ public class MemoService {
         // 해당 메모가 DB에 존재하는지 확인
         Memo memo = memoRepository.findById(id);
 
-        if(memo != null) {
+        if (memo != null) {
             // memo 내용 수정
             memoRepository.update(id, requestDto);
             return id;
@@ -47,7 +65,7 @@ public class MemoService {
     public Long deleteMemo(Long id) {
         // 해당 메모가 DB에 존재하는지 확인
         Memo memo = memoRepository.findById(id);
-        if(memo != null) {
+        if (memo != null) {
             // memo 삭제
             memoRepository.delete(id);
             return id;
